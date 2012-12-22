@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ android:orientation="vertical"
+ android:layout_width="fill_parent"
+ android:layout_height="fill_parent"
+ android:background="#70C8D3"
+ android:padding="5dp"
+ android:gravity="center"
+ >
+    <EditText
+        android:id="@+id/barreRecherche"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:background="#FFFFFF"
+        android:singleLine="true"
+        android:text="Marc Bellêtre"
+        >
+    </EditText>
+
+    <Button
+        android:id="@+id/buttonRecherche"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Go !"
+        android:onClick="lancerecherche" />
+        
+
+</LinearLayout>
