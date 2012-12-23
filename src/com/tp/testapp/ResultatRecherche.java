@@ -25,17 +25,16 @@ public class ResultatRecherche extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		Bundle extras = getIntent().getExtras();
+		
+		setContentView(R.layout.activity_resultats);
 				
 		if(extras != null)
 		{
+			l = ((LinearLayout)(findViewById(R.id.layout)));
 			recherche(extras.getString("research"));
 		}
 		else
 			Toast.makeText(getApplicationContext(), "Une erreur est survenue !", Toast.LENGTH_LONG).show();
-		
-		setContentView(R.layout.activity_resultats);
-		
-		l = ((LinearLayout)(findViewById(R.id.layout)));
 	}
 	
 	public void onBackPressed() {
@@ -60,7 +59,7 @@ public class ResultatRecherche extends Activity {
 			l.addView(photoProfil);
 			
 		} else {
-			Toast.makeText(getApplicationContext(), "Pas trouv√©", Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), "Pas trouvé", Toast.LENGTH_LONG).show();
 		}
 	}
 	
