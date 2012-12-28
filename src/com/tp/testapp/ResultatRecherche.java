@@ -1,14 +1,17 @@
 package com.tp.testapp;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.PhoneLookup;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,6 +23,8 @@ import android.widget.Toast;
 public class ResultatRecherche extends Activity {
 	
 	private LinearLayout l;
+	private LinearLayout lTop;
+	private Contact contact;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,6 +36,8 @@ public class ResultatRecherche extends Activity {
 		if(extras != null)
 		{
 			l = ((LinearLayout)(findViewById(R.id.layout)));
+			lTop = ((LinearLayout)(findViewById(R.id.layoutTop)));
+			
 			recherche(extras.getString("research"));
 		}
 		else
@@ -49,15 +56,27 @@ public class ResultatRecherche extends Activity {
 
 	public void recherche(String query)
 	{
-		Contact contact = rechercheContact(query);
+		contact = rechercheContact(query);
 		
 		if(contact != null)
 		{			
-			ImageView photoProfil = new ImageView(this);
+			if(contact.getPhotoUri() != null)
+			{
+				// -- Photo de profil
+				ImageView topLeft = ((ImageView)(findViewById(R.id.topLeft)));
+				// Création de l'image à partir de l'uri
+				topLeft.setImageURI(contact.getPhotoUri());
+			} else {
+				// -- Photo de profil
+				ImageView topLeft = ((ImageView)(findViewById(R.id.topLeft)));
+				// Création de l'image à partir de l'uri
+				topLeft.setImageResource(R.drawable.default_user);
+			}
 			
-			photoProfil.setImageURI(contact.getPhotoUri());
-			l.addView(photoProfil);
-			
+			// -- Nom / Prénom du contact
+			TextView topRight = ((TextView)(findViewById(R.id.topRight)));
+			// Paramètres du texte
+			topRight.setText(contact.getNom());
 		} else {
 			Toast.makeText(getApplicationContext(), "Pas trouvé", Toast.LENGTH_LONG).show();
 		}
@@ -65,9 +84,9 @@ public class ResultatRecherche extends Activity {
 	
 	public Contact rechercheContact(String query)
 	{     
-		Contact contact = null;
+		contact = null;
 		
-		Cursor people = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+		Cursor people = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " LIKE ('%' || ? || '%')", new String[]{query}, null);
 
 		while(people.moveToNext()) 
 		{
@@ -93,11 +112,13 @@ public class ResultatRecherche extends Activity {
 				   // Cherche le num√©ro du contact
 				   if(phones.moveToNext())
 				   {
-					   // R√©cup√®re le num√©ro
+					   // Récupère le num√©ro
 					   String contactNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 					   
-					   // Cr√©ation du contact en fonction des √©l√®ments donn√©s
-					   contact = new Contact(contactId, contactName, contactNumber, Uri.parse(contactPhoto));
+					   if(contactPhoto == null)
+						   contact = new Contact(contactId, contactName, contactNumber, null);
+					   else
+						   contact = new Contact(contactId, contactName, contactNumber, Uri.parse(contactPhoto));
 				   }
 
 				   phones.close();
@@ -109,5 +130,25 @@ public class ResultatRecherche extends Activity {
 		people.close();
 		
 		return contact;
+	}
+	
+	public void appeler(View v)
+	{
+		try {
+	        Intent callIntent = new Intent(Intent.ACTION_CALL);
+	        callIntent.setData(Uri.parse("tel:" + contact.getNumero()));
+	        startActivity(callIntent);
+	    } catch (ActivityNotFoundException activityException) {
+	    }
+	}
+	
+	public void envoyermessage(View v)
+	{
+		try {
+	        Intent messageIntent = new Intent(Intent.ACTION_VIEW);
+	        messageIntent.setData(Uri.parse("sms:" + contact.getNumero()));
+	        startActivity(messageIntent);
+	    } catch (ActivityNotFoundException activityException) {
+	    }
 	}
 }

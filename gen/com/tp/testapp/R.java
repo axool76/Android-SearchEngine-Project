@@ -17,14 +17,19 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int default_user=0x7f020000;
+        public static final int ic_launcher=0x7f020001;
+        public static final int message=0x7f020002;
+        public static final int phone=0x7f020003;
     }
     public static final class id {
         public static final int barreRecherche=0x7f080000;
         public static final int buttonRecherche=0x7f080001;
         public static final int layout=0x7f080002;
-        public static final int menu_settings=0x7f080004;
-        public static final int resultat=0x7f080003;
+        public static final int layoutTop=0x7f080003;
+        public static final int menu_settings=0x7f080006;
+        public static final int topLeft=0x7f080004;
+        public static final int topRight=0x7f080005;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

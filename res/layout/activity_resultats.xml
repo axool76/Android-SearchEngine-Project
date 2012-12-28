@@ -4,12 +4,57 @@
  android:layout_width="fill_parent"
  android:layout_height="fill_parent"
  android:background="#046380"
- android:padding="5dp"
- android:gravity="center"
+ android:padding="25dp"
  >
-    <TextView
-	android:id="@+id/resultat"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:gravity="center_vertical|center_horizontal"/>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	 android:id="@+id/layoutTop"
+	 android:orientation="horizontal"
+	 android:layout_width="fill_parent"
+	 android:layout_height="wrap_content"
+	 >
+		 <ImageView
+	        android:id="@+id/topLeft"
+	        android:layout_width="150dp"
+	        android:layout_height="150dp"
+	      />
+		 <TextView android:id="@+id/topRight"
+	              android:layout_width="wrap_content"
+	              android:layout_height="wrap_content"
+	              android:textSize="24dp"
+	              android:textColor="#FFFFFF"
+	              android:layout_marginLeft="15dp"
+	     />
+	</LinearLayout>
+	
+	
+ 	<View
+ 	android:layout_marginTop="10dp"
+    android:layout_width="fill_parent"
+    android:layout_height="2dp"
+    android:background="@android:color/darker_gray"
+    />
+		 
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	 android:id="@+id/layoutTop"
+	 android:orientation="horizontal"
+	 android:layout_width="fill_parent"
+	 android:layout_height="fill_parent"
+	  android:gravity="center"
+	 >
+		<Button
+	     android:layout_height="wrap_content"
+	     android:layout_width="fill_parent"
+	     android:layout_weight="1"
+	     android:text="Appeler"
+	     android:drawableLeft="@drawable/phone"
+	     android:onClick="appeler" />
+		<Button
+	     android:layout_height="wrap_content"
+	     android:layout_width="fill_parent"
+	     android:layout_weight="1"
+	     android:text="Message"
+	     android:drawableLeft="@drawable/message"
+	     android:onClick="envoyermessage" />
+	</LinearLayout>
+
 </LinearLayout>
